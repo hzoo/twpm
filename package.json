@@ -1,14 +1,23 @@
 {
   "name": "lppm",
   "version": "0.0.1",
-  "description": "some package manager",
+  "description": "left-pad package manager",
   "main": "index.js",
   "author": "Henry Zhu <hi@henryzoo.com>",
   "license": "MIT",
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js",
+    "sources"
   ],
   "bin": {
     "lppm": "./bin/lppm.js"
+  },
+  "dependencies": {
+    "entities": "1.1.1",
+    "twit": "2.2.3"
+  },
+  "engines": {
+    "node": ">5"
   }
 }

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+"use strict";
 
 const args = process.argv.slice(2);
-if (args.length > 2) {
+if (args.length > 4) {
   console.error("Too many arguments.");
   process.exit(1);
 }
@@ -13,20 +14,36 @@ if (arg === "-v" || arg === "-V" || arg === "--version" || arg === "-version") {
   process.exit(0);
 }
 
-const lppm = require("../index");
-const tweetRegex = /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)$/;
-const getTweetId = (str) => tweetRegex.exec(str);
 
 if (arg === "install" || arg === "i") {
+  const lppm = require("../index");
+
   const url = args[1];
+  lppm.install(url);
+
+  // npm install id-here --save name-here
   const extra = args[2];
+  if (extra === "--save") {
+    const utils = require("../utils");
+    const path = require("path");
+    const fs = require("fs");
+    const rootPath = utils.getTopLevelDirectory();
+    const packageLoc = path.join(rootPath, "package.json");
+    const pkg = require(packageLoc);
 
-  let match = getTweetId(url);
-  if (match) {
-    lppm.install(match[1]);
+    if (!pkg.lppmDependencies) {
+      pkg.lppmDependencies = {};
+    }
+
+    pkg.lppmDependencies[args[3] || url] = url;
+
+    fs.writeFileSync(packageLoc, JSON.stringify(pkg, null, "  "));
   }
-
 } else {
-  console.error("Unknown command " + JSON.stringify(arg));
+  if (arg) {
+    console.error(`Unknown command ${JSON.stringify(arg)}`);
+  } else {
+    console.log("Try `lppm install https://twitter.com/rauchg/status/712799807073419264`");
+  }
   process.exit(1);
 }
