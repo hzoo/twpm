@@ -1,7 +1,7 @@
 {
-  "name": "lppm",
+  "name": "twpm",
   "version": "0.0.1",
-  "description": "left-pad package manager",
+  "description": "twitter package manager",
   "main": "index.js",
   "author": "Henry Zhu <hi@henryzoo.com>",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "sources"
   ],
   "bin": {
-    "lppm": "./bin/lppm.js"
+    "twpm": "./bin/twpm.js"
   },
   "dependencies": {
     "entities": "1.1.1",

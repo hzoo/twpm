@@ -9,18 +9,18 @@ const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
 
 let pkg;
-let lppmModulesName = "tweet_modules";
+let twpmModulesName = "tweet_modules";
 try {
   pkg = require(packageLoc);
-  lppmModulesName = pkg && pkg.lppm && pkg.lppm.modulesLocation || lppmModulesName;
+  twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
 } catch(e) {
   throw new Error(`${e.message}\nProbably a missing package.json`);
 }
 
-const lppmFolder = path.join(rootPath, lppmModulesName);
+const twpmFolder = path.join(rootPath, twpmModulesName);
 
-function lppmPath(moduleName) {
-  return `${lppmFolder}/${moduleName}.js`;
+function twpmPath(moduleName) {
+  return `${twpmFolder}/${moduleName}.js`;
 }
 
 function matchTwitterUrl(path) {
@@ -29,9 +29,9 @@ function matchTwitterUrl(path) {
 }
 
 function install(path, name) {
-  if (!path && pkg && pkg.lppmDependencies) {
-    for (let lp in pkg.lppmDependencies) {
-      install(pkg.lppmDependencies[lp], lp);
+  if (!path && pkg && pkg.twpmDependencies) {
+    for (let dep in pkg.twpmDependencies) {
+      install(pkg.twpmDependencies[dep], dep);
     }
     return;
   }
@@ -43,6 +43,10 @@ function install(path, name) {
     match = path;
   }
 
+  if (!match) {
+    return;
+  }
+
   getTweet(match, name)
   .then((data) => {
     _install(`twitter:${match}`, data);
@@ -52,14 +56,14 @@ function install(path, name) {
 }
 
 function _install(moduleName, data) {
-  fs.stat(lppmFolder, (e) => {
+  fs.stat(twpmFolder, (e) => {
     if (e && e.code === "ENOENT") {
-      fs.mkdirSync(lppmFolder);
+      fs.mkdirSync(twpmFolder);
     }
 
-    fs.writeFile(lppmPath(moduleName), data, "utf8", (err) => {
+    fs.writeFile(twpmPath(moduleName), data, "utf8", (err) => {
       if (err) {
-        console.error(`Unable to install file at ${lppmPath(moduleName)}`);
+        console.error(`Unable to install file at ${twpmPath(moduleName)}`);
         throw err;
       }
     });

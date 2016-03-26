@@ -16,10 +16,10 @@ if (arg === "-v" || arg === "-V" || arg === "--version" || arg === "-version") {
 
 
 if (arg === "install" || arg === "i") {
-  const lppm = require("../index");
+  const twpm = require("../index");
 
   const url = args[1];
-  lppm.install(url);
+  twpm.install(url);
 
   // npm install id-here --save name-here
   const extra = args[2];
@@ -31,11 +31,11 @@ if (arg === "install" || arg === "i") {
     const packageLoc = path.join(rootPath, "package.json");
     const pkg = require(packageLoc);
 
-    if (!pkg.lppmDependencies) {
-      pkg.lppmDependencies = {};
+    if (!pkg.twpmDependencies) {
+      pkg.twpmDependencies = {};
     }
 
-    pkg.lppmDependencies[args[3] || url] = url;
+    pkg.twpmDependencies[args[3] || url] = url;
 
     fs.writeFileSync(packageLoc, JSON.stringify(pkg, null, "  "));
   }
@@ -43,7 +43,7 @@ if (arg === "install" || arg === "i") {
   if (arg) {
     console.error(`Unknown command ${JSON.stringify(arg)}`);
   } else {
-    console.log("Try `lppm install https://twitter.com/rauchg/status/712799807073419264`");
+    console.log("Try `twpm install https://twitter.com/rauchg/status/712799807073419264`");
   }
   process.exit(1);
 }

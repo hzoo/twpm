@@ -1,7 +1,7 @@
-lppm
+twpm
 ====
 
-left-pad package manager
+twitter package manager
 
 >https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
 
@@ -22,7 +22,7 @@ module.exports = {
 ```js
 {
   "name": "require-from-twitter",
-  "lppm": {
+  "twpm": {
     "modulesLocation": "tweet_modules", // default folder
     "fields": [
       "created_at",
@@ -32,7 +32,7 @@ module.exports = {
       "screen_name"
     ] // default fields to take from twitter status
   },
-  "lppmDependencies": {
+  "twpmDependencies": {
     "left-pad": "712799807073419264",
     "sort": "713782217646931968"
   }
@@ -41,15 +41,15 @@ module.exports = {
 
 ```bash
 # install specific tweet/id
-lppm install 712799807073419264 # tweet id 
-lppm install https://twitter.com/rauchg/status/712799807073419264 # full url
+twpm install 712799807073419264 # tweet id 
+twpm install https://twitter.com/rauchg/status/712799807073419264 # full url
 
 # save to package.json
-# under the lppm key
-lppm install 712799807073419264 --save left-pad
+# under the twpm key
+twpm install 712799807073419264 --save left-pad
 
-# install everything under the `lppmDependencies`
-lppm install
+# install everything under the `twpmDependencies`
+twpm install
 # shorthand
-lppm i
+twpm i
 ```

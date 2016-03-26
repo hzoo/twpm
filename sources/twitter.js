@@ -11,7 +11,7 @@ let twit;
 try {
  twit = new Twit(require(configLoc));
 } catch(e) {
-  throw new Error(`${e.message}\nProbably a missing ./twitter-config.js file. Check the lppm readme`);
+  throw new Error(`${e.message}\nProbably a missing ./twitter-config.js file. Check the twpm readme`);
 }
 
 const packageLoc = path.join(rootPath, "package.json");
@@ -40,7 +40,7 @@ module.exports = function getTweet(id, name) {
     console.log("---");
     console.log();
 
-    const filter = pkg.lppm && pkg.lppm.fields && pkg.lppm.fields.concat("text") || [
+    const filter = pkg.twpm && pkg.twpm.fields && pkg.twpm.fields.concat("text") || [
       "created_at",
       "text",
       "id_str",

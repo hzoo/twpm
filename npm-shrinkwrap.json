@@ -1,5 +1,5 @@
 {
-  "name": "lppm",
+  "name": "twpm",
   "version": "0.0.1",
   "dependencies": {
     "ansi-regex": {
