@@ -1,0 +1,14 @@
+{
+  "name": "lppm",
+  "version": "0.0.1",
+  "description": "some package manager",
+  "main": "index.js",
+  "author": "Henry Zhu <hi@henryzoo.com>",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "bin": {
+    "lppm": "./bin/lppm.js"
+  }
+}
