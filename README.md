@@ -5,17 +5,24 @@ twitter package manager
 
 >https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
 
+![left-pad](left-pad.png)
+
 ## Usage
 
 You will need `twitter-config.js` in the root repo you run this in.
+
+> You can create a twitter app at https://apps.twitter.com/
 
 ```js
 // twitter-config.js
 module.exports = {
   "consumer_key": "",
   "consumer_secret": "",
-  "access_token": "",
-  "access_token_secret": ""
+  "app_only_auth": true
+
+  // not necessary unless we plan to post tweets as well
+  // "access_token": "",
+  // "access_token_secret": ""
 };
 ```
 

@@ -33,7 +33,8 @@ module.exports = function getTweet(id, name) {
     if (name) {
       console.log(name);
     }
-    console.log(`Tweet ${id}: ${data.retweet_count} Retweets`);
+
+    console.log(`Tweet ${id}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
     console.log(`@${data.user.screen_name} at ${data.created_at}`);
     console.log("===");
     console.log(data.text);
