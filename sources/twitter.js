@@ -31,8 +31,9 @@ function getTweet(id, name) {
     data.text = decode(data.text);
 
     var filteredData = {};
+    const prefix = "twpm-";
     if (name) {
-      const prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
+      prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
 
       filteredData.name = name;
       if (!name.startsWith(prefix)) {

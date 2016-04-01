@@ -20,7 +20,6 @@ try {
   pkg = require(packageLoc);
   twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
   twpmFolderPrefix = pkg && pkg.twpm && pkg.twpm.folderPrefix || twpmFolderPrefix;
-
 } catch(e) {
   throw new Error(`${e.message}\nProbably a missing package.json`);
 }
