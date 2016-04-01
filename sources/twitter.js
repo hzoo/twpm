@@ -43,6 +43,8 @@ function getTweet(id, name) {
       filteredData.name = `${prefix}${id}`;
     }
 
+    data.text = data.text.replace(/https\:\/\/t\.co\/.+$/, "");
+
     console.log(`Tweet ${data.id_str}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
     console.log(`@${data.user.screen_name} at ${data.created_at}`);
     console.log("===");
