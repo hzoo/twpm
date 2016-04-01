@@ -7,6 +7,20 @@ twitter package manager
 
 [![](twpm.gif)](https://twitter.com/rauchg/status/712799807073419264)
 
+### Simple Usage
+
+```bash
+// after adding `./twitter-config.js` ^
+twpm install 712799807073419264 --save left-pad
+// in a file, require it with the prefix
+const leftPad = require("twpm-left-pad");
+
+// search
+twpm search left-pad
+// use the id you get to install it
+twpm install 715856513777147900 --save left-pad
+```
+
 ### Setup
 
 At the moment, you will need a `twitter-config.js` in the root repo you run this in.
@@ -26,14 +40,7 @@ module.exports = {
 };
 ```
 
-### Simple Usage
-
-```bash
-// after adding `./twitter-config.js` ^
-twpm install 712799807073419264 --save left-pad
-// in a file, require it with the prefix
-const leftPad = require("tpm-left-pad");
-```
+> TODO: support without using a key?
 
 ### Commands
 
@@ -41,14 +48,14 @@ const leftPad = require("tpm-left-pad");
 # install specific tweet/id
 twpm install 712799807073419264 # tweet id
 twpm install https://twitter.com/rauchg/status/712799807073419264 # full url
-# Will install to node_modules/tpm-712799807073419264
+# Will install to node_modules/twpm-712799807073419264
 
 `install` creates a `index.js` with transpiled source and a `package.json` with metadata (including the original source).
 
 # save to package.json
 # under the twpm key
 twpm install 712799807073419264 --save left-pad
-# Will install to node_modules/tpm-left-pad
+# Will install to node_modules/twpm-left-pad
 
 # install everything under the `twpm.dependencies`
 twpm install
@@ -58,13 +65,43 @@ twpm i
 
 ### Require
 
-> The default package folder/require prefix is `tpm-`
+> The default package folder/require prefix is `twpm-`
 
 ```js
 // usage for `twpm install 712799807073419264 --save left-pad`
-const leftPad = require("tpm-left-pad");
+const leftPad = require("twpm-left-pad");
 leftPad(1, 5) // "00001"
 ```
+
+### The tweets
+
+Since twpm will be transpiling the code, twpm will strip out the first line if the tweet is multiline and contains the hashtag `#twpm`.
+
+```js
+// Input
+@_henryzhu //#twpm:left-pad
+export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).repeat(n) + v).slice(-n);
+// Input to be transpiled (just the function. otherwise an error will occur with decorators)
+export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).repeat(n) + v).slice(-n);
+```
+
+Currently you will need to use a `export default function() {}` or `export default () => {}` in your tweet.
+
+> TODO: support any binding.
+
+### Search
+
+You can search through tweets that are hashtagged with `#twpm` and install them
+
+> TODO: prompt to install afterwards
+
+```js
+# get some random ones
+twpm search
+# specific keyword search
+twpm search left-pad
+```
+
 
 ### Repo `package.json`
 
@@ -73,7 +110,7 @@ leftPad(1, 5) // "00001"
   "name": "pad",
   "twpm": {
     "modulesLocation": "node_modules", // default folder
-    "folderPrefix": "tpm-", // default prefix
+    "folderPrefix": "twpm-", // default prefix
     "packageMetadata": [
       "name",
       "text",
@@ -85,8 +122,8 @@ leftPad(1, 5) // "00001"
       "user"
     ] // default fields to take from twitter status
     "dependencies": {
-      "tpm-left-pad": "712799807073419264"
-      "tpm-sort": "713782217646931968"
+      "twpm-left-pad": "712799807073419264"
+      "twpm-sort": "713782217646931968"
     }
   }
 }
@@ -98,7 +135,7 @@ leftPad(1, 5) // "00001"
 
 ```bash
 # twpm i 712799807073419264 --save asdf
-tpm-asdf@0.0.0 /Users/hzoo/twpm-test
+twpm-asdf@0.0.0 /Users/hzoo/twpm-test
 
 Tweet 712799807073419264: 359 🔄, 632 💟
 @rauchg at Thu Mar 24 00:34:51 +0000 2016
@@ -111,7 +148,7 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 ```
 - twpm-test
   - node_modules
-    - tpm-asdf
+    - twpm-asdf
       - index.js # transpiled index.js
       - package.json # reformatted twitter data + name field
 ```

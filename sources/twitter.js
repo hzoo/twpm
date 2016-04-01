@@ -21,7 +21,7 @@ try {
   pkg = require(packageLoc);
 } catch(e) {}
 
-module.exports = function getTweet(id, name) {
+function getTweet(id, name) {
   return twit.get(`/statuses/show/:id`, { id })
   .then((tweet) => {
     const data = tweet.data;
@@ -32,7 +32,7 @@ module.exports = function getTweet(id, name) {
 
     var filteredData = {};
     if (name) {
-      const prefix = pkg.twpm && pkg.twpm.folderPrefix || "tpm-";
+      const prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
 
       filteredData.name = name;
       if (!name.startsWith(prefix)) {
@@ -42,7 +42,7 @@ module.exports = function getTweet(id, name) {
       filteredData.name = `${prefix}${id}`;
     }
 
-    console.log(`Tweet ${id}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
+    console.log(`Tweet ${data.id_str}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
     console.log(`@${data.user.screen_name} at ${data.created_at}`);
     console.log("===");
     console.log(data.text);
@@ -81,4 +81,38 @@ module.exports = function getTweet(id, name) {
   }, (err) => {
     return err;
   });
+}
+
+function searchTweets(query) {
+  return twit.get(`/search/tweets`, {
+    q: `#twpm since:2016-04-01 ${query ? query: ""}`,
+    count: 10
+  })
+  .then((tweet) => {
+    let tweets = tweet.data.statuses;
+    if (!tweets.length) {
+      console.log("Nothing found for query");
+      return;
+    }
+
+    for (let i = 0; i < tweets.length; i++) {
+      let data = tweets[i];
+
+      data.text = decode(data.text);
+
+      console.log(`Tweet ${data.id_str}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
+      console.log(`@${data.user.screen_name} at ${data.created_at}`);
+      console.log("===");
+      console.log(data.text);
+      console.log("---");
+      console.log();
+    }
+  }, (err) => {
+    console.log(err);
+  });
+}
+
+module.exports = {
+  getTweet,
+  searchTweets
 }

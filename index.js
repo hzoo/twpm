@@ -7,14 +7,15 @@ const Babel = require("babel-standalone");
 const babelrc = require("./package").babel;
 
 const utils = require("./utils");
-const getTweet = require("./sources/twitter");
+const getTweet = require("./sources/twitter").getTweet;
+const searchTweets = require("./sources/twitter").searchTweets;
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
 
 let pkg;
 let twpmModulesName = "node_modules";
-let twpmFolderPrefix = "tpm-";
+let twpmFolderPrefix = "twpm-";
 try {
   pkg = require(packageLoc);
   twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
@@ -76,6 +77,13 @@ function _install(moduleName, data) {
       console.error(err, `Unable to create folder ${folder}`);
     }
 
+    let splitNewLines = data.text.split("\n");
+    if (splitNewLines.length > 0) {
+      if (splitNewLines[0].indexOf("#twpm") >= 0) {
+        data.text = splitNewLines[1];
+      }
+    }
+
     var transformedText = Babel.transform(data.text, babelrc).code;
     transformedText += "\n module.exports = exports['default'];"
 
@@ -89,6 +97,11 @@ function _install(moduleName, data) {
   });
 }
 
+function search(query) {
+  searchTweets(query);
+}
+
 module.exports = {
-  install
+  install,
+  search
 };
