@@ -31,7 +31,7 @@ if (arg === "install" || arg === "i") {
     const packageLoc = path.join(rootPath, "package.json");
     const pkg = require(packageLoc);
 
-    const prefix = pkg.twpm && pkg.twpm.folderPrefix || "tpm-";
+    const prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
 
     if (!pkg.twpm) {
       pkg.twpm = {};
@@ -48,6 +48,10 @@ if (arg === "install" || arg === "i") {
     console.log(`${pkgName}@0.0.0 ${process.cwd()}`);
     console.log();
   }
+} else if (arg === "search" || arg === "list") {
+  const twpm = require("../index");
+  const pkg = args[1];
+  twpm.search(pkg);
 } else {
   if (arg) {
     console.error(`Unknown command ${JSON.stringify(arg)}`);

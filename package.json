@@ -20,9 +20,9 @@
   },
   "twpm": {
     "dependencies": {
-      "tpm-left-pad": "712799807073419264"
+      "twpm-left-pad": "712799807073419264"
     },
-    "folderPrefix": "tpm-"
+    "folderPrefix": "twpm-"
   },
   "babel": {
     "presets": [

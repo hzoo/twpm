@@ -7,14 +7,15 @@ const Babel = require("babel-standalone");
 const babelrc = require("./package").babel;
 
 const utils = require("./utils");
-const getTweet = require("./sources/twitter");
+const getTweet = require("./sources/twitter").getTweet;
+const searchTweets = require("./sources/twitter").searchTweets;
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
 
 let pkg;
 let twpmModulesName = "node_modules";
-let twpmFolderPrefix = "tpm-";
+let twpmFolderPrefix = "twpm-";
 try {
   pkg = require(packageLoc);
   twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
@@ -89,6 +90,11 @@ function _install(moduleName, data) {
   });
 }
 
+function search(query) {
+  searchTweets(query);
+}
+
 module.exports = {
-  install
+  install,
+  search
 };

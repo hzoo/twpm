@@ -1,7 +1,7 @@
 const assert = require("assert");
 
 // es6 left pad
-const leftPad = require("tpm-left-pad");
+const leftPad = require("twpm-left-pad");
 const res1 = leftPad(1, 5);
 assert(res1 === "00001");
 
