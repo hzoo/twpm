@@ -1,6 +1,6 @@
 {
   "name": "twpm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "twitter package manager",
   "main": "index.js",
   "scripts": {
