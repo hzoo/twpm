@@ -24,14 +24,14 @@ try {
 function getTweet(id, name) {
   return twit.get(`/statuses/show/:id`, { id })
   .then((tweet) => {
-    const data = tweet.data;
+    let data = tweet.data;
     if (data.errors) {
       throw new Error(`${data.errors[0].code}: ${data.errors[0].message}`);
     }
     data.text = decode(data.text);
 
     var filteredData = {};
-    const prefix = "twpm-";
+    let prefix = "twpm-";
     if (name) {
       prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
 

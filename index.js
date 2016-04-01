@@ -60,7 +60,7 @@ function install(path, name) {
   .then((data) => {
     _install(name || match, data);
   }, (err) => {
-    console.error(err.message);
+    throw new Error(err);
   });
 }
 
@@ -83,7 +83,13 @@ function _install(moduleName, data) {
       }
     }
 
-    var transformedText = Babel.transform(data.text, babelrc).code;
+    var transformedText;
+    try {
+      transformedText = Babel.transform(data.text, babelrc).code;
+    } catch (e) {
+      throw new Error(`Error with transforming tweet ${e}`);
+    }
+
     transformedText += "\n module.exports = exports['default'];"
 
     fs.writeFile(path.join(folder, 'index.js'), transformedText, (err) => {
