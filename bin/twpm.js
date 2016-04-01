@@ -14,16 +14,16 @@ if (arg === "-v" || arg === "-V" || arg === "--version" || arg === "-version") {
   process.exit(0);
 }
 
-
 if (arg === "install" || arg === "i") {
   const twpm = require("../index");
 
   const url = args[1];
-  twpm.install(url);
+  twpm.install(url, args[3]);
 
   // npm install id-here --save name-here
   const extra = args[2];
-  if (extra === "--save") {
+  if (extra === "--save" || extra === "-S") {
+
     const utils = require("../utils");
     const path = require("path");
     const fs = require("fs");
@@ -31,13 +31,22 @@ if (arg === "install" || arg === "i") {
     const packageLoc = path.join(rootPath, "package.json");
     const pkg = require(packageLoc);
 
-    if (!pkg.twpmDependencies) {
-      pkg.twpmDependencies = {};
-    }
+    const prefix = pkg.twpm && pkg.twpm.folderPrefix || "tpm-";
 
-    pkg.twpmDependencies[args[3] || url] = url;
+    if (!pkg.twpm) {
+      pkg.twpm = {};
+    }
+    if (!pkg.twpm.dependencies) {
+      pkg.twpm.dependencies = {};
+    }
+    const pkgName = `${prefix}${args[3] || url}`;
+
+    pkg.twpm.dependencies[pkgName] = url;
 
     fs.writeFileSync(packageLoc, JSON.stringify(pkg, null, "  "));
+
+    console.log(`${pkgName}@0.0.0 ${process.cwd()}`);
+    console.log();
   }
 } else {
   if (arg) {

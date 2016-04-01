@@ -3,21 +3,44 @@
   "version": "0.0.1",
   "description": "twitter package manager",
   "main": "index.js",
-  "author": "Henry Zhu <hi@henryzoo.com>",
-  "license": "MIT",
-  "files": [
-    "index.js",
-    "utils.js",
-    "sources"
-  ],
+  "scripts": {
+    "test": "node test/test.js"
+  },
   "bin": {
     "twpm": "./bin/twpm.js"
   },
-  "dependencies": {
-    "entities": "1.1.1",
-    "twit": "2.2.3"
-  },
   "engines": {
     "node": ">5"
-  }
+  },
+  "dependencies": {
+    "babel-standalone": "6.7.4",
+    "entities": "1.1.1",
+    "mkdirp": "0.5.1",
+    "twit": "2.2.3"
+  },
+  "twpm": {
+    "dependencies": {
+      "tpm-left-pad": "712799807073419264"
+    },
+    "folderPrefix": "tpm-"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "author": "Henry Zhu <hi@henryzoo.com>",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "sources",
+    "index.js",
+    "utils.js",
+    "transform.js"
+  ]
 }

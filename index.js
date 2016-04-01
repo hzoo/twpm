@@ -1,18 +1,25 @@
 "use strict";
 
+const mkdirp = require("mkdirp");
 const path = require("path");
 const fs = require("fs");
+const Babel = require("babel-standalone");
+const babelrc = require("./package").babel;
+
 const utils = require("./utils");
-const getTweet = require("./sources/twitter.js");
+const getTweet = require("./sources/twitter");
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
 
 let pkg;
-let twpmModulesName = "tweet_modules";
+let twpmModulesName = "node_modules";
+let twpmFolderPrefix = "tpm-";
 try {
   pkg = require(packageLoc);
   twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
+  twpmFolderPrefix = pkg && pkg.twpm && pkg.twpm.folderPrefix || twpmFolderPrefix;
+
 } catch(e) {
   throw new Error(`${e.message}\nProbably a missing package.json`);
 }
@@ -20,7 +27,7 @@ try {
 const twpmFolder = path.join(rootPath, twpmModulesName);
 
 function twpmPath(moduleName) {
-  return `${twpmFolder}/${moduleName}.js`;
+  return `${twpmFolder}/${moduleName}`;
 }
 
 function matchTwitterUrl(path) {
@@ -29,9 +36,11 @@ function matchTwitterUrl(path) {
 }
 
 function install(path, name) {
-  if (!path && pkg && pkg.twpmDependencies) {
-    for (let dep in pkg.twpmDependencies) {
-      install(pkg.twpmDependencies[dep], dep);
+  if (!path && pkg && pkg.twpm) {
+    for (let dep in pkg.twpm.dependencies) {
+      if (dep.startsWith(twpmFolderPrefix)) {
+        install(pkg.twpm.dependencies[dep], dep);
+      }
     }
     return;
   }
@@ -49,27 +58,37 @@ function install(path, name) {
 
   getTweet(match, name)
   .then((data) => {
-    _install(`twitter:${match}`, data);
+    _install(name || match, data);
   }, (err) => {
     console.error(err.message);
   });
 }
 
 function _install(moduleName, data) {
-  fs.stat(twpmFolder, (e) => {
-    if (e && e.code === "ENOENT") {
-      fs.mkdirSync(twpmFolder);
+  const folder = twpmPath(`${
+    moduleName.startsWith(twpmFolderPrefix) ?
+    moduleName :
+    twpmFolderPrefix + moduleName
+  }`);
+
+  mkdirp(folder, function (err) {
+    if (err) {
+      console.error(err, `Unable to create folder ${folder}`);
     }
 
-    fs.writeFile(twpmPath(moduleName), data, "utf8", (err) => {
-      if (err) {
-        console.error(`Unable to install file at ${twpmPath(moduleName)}`);
-        throw err;
-      }
+    var transformedText = Babel.transform(data.text, babelrc).code;
+    transformedText += "\n module.exports = exports['default'];"
+
+    fs.writeFile(path.join(folder, 'index.js'), transformedText, (err) => {
+      if (err) console.error(err, `Unable to write ${folder} text to index.js`);
+    });
+
+    fs.writeFile(path.join(folder, 'package.json'), JSON.stringify(data, null, "  "), (err) => {
+      if (err) console.error(err, `Unable to write ${folder}'s package.json`);
     });
   });
 }
 
 module.exports = {
-  install: install
+  install
 };

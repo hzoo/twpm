@@ -30,8 +30,16 @@ module.exports = function getTweet(id, name) {
     }
     data.text = decode(data.text);
 
+    var filteredData = {};
     if (name) {
-      console.log(name);
+      const prefix = pkg.twpm && pkg.twpm.folderPrefix || "tpm-";
+
+      filteredData.name = name;
+      if (!name.startsWith(prefix)) {
+        filteredData.name = `${prefix}${name}`;
+      }
+    } else {
+      filteredData.name = `${prefix}${id}`;
     }
 
     console.log(`Tweet ${id}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
@@ -41,15 +49,35 @@ module.exports = function getTweet(id, name) {
     console.log("---");
     console.log();
 
-    const filter = pkg.twpm && pkg.twpm.fields && pkg.twpm.fields.concat("text") || [
-      "created_at",
+    const filter = pkg.twpm &&
+    pkg.twpm.packageMetadata &&
+    pkg.twpm.packageMetadata.concat(["name", "text", "screen_name", "id_str"]) || [
+      "name",
       "text",
+      "screen_name",
       "id_str",
-      "user",
-      "screen_name"
+      "retweet_count",
+      "favorite_count",
+      "created_at",
+      "user"
     ];
 
-    return JSON.stringify(data, filter, 4);
+    filteredData.version = "0.0.0";
+
+    for (let i in data) {
+      if (filter.indexOf(i) >= 0) {
+        if (i === "user") {
+          filteredData.user = {
+            name: data.user.name,
+            screen_name: data.user.screen_name
+          }
+        } else {
+          filteredData[i] = data[i];
+        }
+      }
+    }
+
+    return filteredData;
   }, (err) => {
     return err;
   });

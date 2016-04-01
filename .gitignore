@@ -1,3 +1,4 @@
-node_modules
 tweet_modules
+node_modules
+twitter-config.js
 *.log
