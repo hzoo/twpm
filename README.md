@@ -6,7 +6,7 @@
 
 ### Install
 
-> Read the [setup](#setup) info below (will need some twitter credentials) 
+> Check out the [setup](#setup) info (need twitter credentials)
 
 ```bash
 npm i twpm -g
@@ -31,10 +31,15 @@ const leftPad = require("@twpm/left-pad");
 leftPad(1, 5) // "00001"
 ```
 
-### Setup
+### Setup (2 ways)
 
-You need to add a `CONSUMER_KEY` and `CONSUMER_KEY` environment variables
-or you will need a `twitter-config.js` in the root repo you run this in.
+### Environment Variables
+
+You need to add `CONSUMER_KEY` and `CONSUMER_KEY` environment variables when running twpm
+
+### Config file (`./twitter-config.js`)
+
+Create a config file at the root of your git repo.
 
 > You can create a Twitter app to get keys at https://apps.twitter.com.
 
@@ -104,7 +109,7 @@ Currently you will need to use a `export default function() {}` or `export defau
 
 ```js
 {
-  "name": "pad",
+  "name": "your-app-here",
   "twpm": {
     "modulesLocation": "node_modules", // default folder
     "folderPrefix": "@twpm/", // default prefix
@@ -131,8 +136,8 @@ Currently you will need to use a `export default function() {}` or `export defau
 ![left-pad](left-pad.png)
 
 ```bash
-# twpm i 712799807073419264 --save asdf
-twpm-asdf@0.0.0 /Users/hzoo/twpm-test
+# twpm i 712799807073419264 --save left-pad
+twpm-left-pad@0.0.0 /Users/hzoo/twpm-test
 
 Tweet 712799807073419264: 359 🔄, 632 💟
 @rauchg at Thu Mar 24 00:34:51 +0000 2016
@@ -146,7 +151,7 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 - twpm-test
   - node_modules
     - @twpm
-      - asdf
+      - left-pad
         - index.js # transpiled index.js
         - package.json # reformatted twitter data + name field
 ```
