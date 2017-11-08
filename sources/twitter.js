@@ -8,10 +8,27 @@ const rootPath = utils.getTopLevelDirectory();
 const configLoc = path.join(rootPath, "twitter-config");
 
 let twit;
-try {
- twit = new Twit(require(configLoc));
-} catch(e) {
-  throw new Error(`${e.message}\nProbably a missing ./twitter-config.js file. Check the twpm readme`);
+if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
+  twit = new Twit({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    app_only_auth: true,
+  })
+} else {
+  try {
+   twit = new Twit(require(configLoc));
+  } catch(e) {
+    throw new Error(`
+      You probably need to create a './twitter-config.js' file. Check the twpm readme!
+
+      // twitter-config.js
+      module.exports = {
+        "consumer_key": "",
+        "consumer_secret": "",
+        "app_only_auth": true
+      };
+    `);
+  }
 }
 
 const packageLoc = path.join(rootPath, "package.json");

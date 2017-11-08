@@ -3,7 +3,7 @@
 const mkdirp = require("mkdirp");
 const path = require("path");
 const fs = require("fs");
-const Babel = require("babel-standalone");
+const Babel = require("@babel/standalone");
 
 const utils = require("./utils");
 const getTweet = require("./sources/twitter").getTweet;
@@ -11,14 +11,6 @@ const searchTweets = require("./sources/twitter").searchTweets;
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
-
-const babelrc = {
-  "presets": [
-    "@babel/env",
-    "@babel/react",
-    "@babel/stage-0"
-  ]
-};
 
 let pkg;
 let twpmModulesName = "node_modules";
@@ -92,7 +84,15 @@ function _install(moduleName, data) {
 
     var transformedText;
     try {
-      transformedText = Babel.transform(data.text, babelrc).code;
+      transformedText = Babel.transform(data.text, {
+        "presets": [
+          "es2015",
+          "es2016",
+          "es2017",
+          "react",
+          "stage-0"
+        ]
+      }).code;
     } catch (e) {
       throw new Error(`Error with transforming tweet ${e}`);
     }
