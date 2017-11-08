@@ -1,4 +1,4 @@
-## twpm (twitter package manager) [![](https://img.shields.io/npm/v/twpm.svg?style=flat-square)](https://www.npmjs.com/package/twpm)
+## twpm (twitter package manager) [![](https://img.shields.io/npm/v/twpm.svg?style=flat-square)](https://www.npmjs.com/package/twpm) [![](https://img.shields.io/travis/hzoo/twpm/master.svg?style=flat-square)](https://travis-ci.org/hzoo/twpm)
 
 > https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
 
