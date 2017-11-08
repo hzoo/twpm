@@ -162,6 +162,7 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 
 ```bash
 npm i
-twpm i
+# same as twpm install
+node ./bin/twpm.js i
 npm t
 ```
