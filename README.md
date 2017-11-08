@@ -1,4 +1,5 @@
-twpm (twitter package manager) (0.0.5)
+twpm (twitter package manager) [![NPM version][https://img.shields.io/npm/v/twpm.svg?style=flat-square]][https://www.npmjs.com/package/twpm]
+
 ====
 
 > https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
