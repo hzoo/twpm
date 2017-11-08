@@ -1,33 +1,39 @@
-twpm
+twpm (twitter package manager) (0.0.5)
 ====
 
-twitter package manager
-
->https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
+> https://gist.github.com/rauchg/5b032c2c2166e4e36713#gistcomment-1732501
 
 [![](twpm.gif)](https://twitter.com/rauchg/status/712799807073419264)
 
 ### Simple Usage
 
 ```bash
-// after adding `./twitter-config.js` ^
+# install globally
+npm install twpm -g
+
+# read the setup info below (need twitter credentials)
 twpm install 712799807073419264 --save left-pad
-// in a file, require it with the prefix
+
+## usage in code
 const leftPad = require("@twpm/left-pad");
 
-// search
+# or use npx
+npx twpm install 712799807073419264 --save left-pad
+
+# search
 twpm search left-pad
-// use the id you get to install it
+
+# use the id you get to install it
 twpm install 715856513777147900 --save left-pad
 ```
 
 ### Setup
 
-
-You need to add a CONSUMER_KEY and CONSUMER_KEY environment variables
+You need to add a `CONSUMER_KEY` and `CONSUMER_KEY` environment variables
 or you will need a `twitter-config.js` in the root repo you run this in.
 
 > You can create a twitter app at https://apps.twitter.com to get these 2 keys
+> TODO: is support without using a key possible?
 
 ```js
 // twitter-config.js
@@ -42,25 +48,23 @@ module.exports = {
 };
 ```
 
-> TODO: is support without using a key possible?
-
 ### Commands
 
 ```bash
-# install specific tweet/id
-twpm install 712799807073419264 # tweet id
-twpm install https://twitter.com/rauchg/status/712799807073419264 # full url
-# Will install to node_modules/@twpm/712799807073419264
+# will install to node_modules/@twpm/712799807073419264
+twpm install 712799807073419264
 
-`install` creates a `index.js` with transpiled source and a `package.json` with metadata (including the original source).
+# will install to node_modules/@twpm/712799807073419264
+twpm install https://twitter.com/rauchg/status/712799807073419264
 
-# save to package.json
-# under the twpm key
-twpm install 712799807073419264 --save left-pad
+`twpm install` creates a `index.js` with transpiled source and a `package.json` with metadata (including the original source).
+
 # Will install to node_modules/@twpm/left-pad
+twpm install 712799807073419264 --save left-pad
 
-# install everything under the `twpm.dependencies`
+# install everything under `twpm.dependencies` in `package.json`
 twpm install
+
 # shorthand
 twpm i
 ```
