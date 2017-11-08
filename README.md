@@ -4,24 +4,27 @@
 
 [![](twpm.gif)](https://twitter.com/rauchg/status/712799807073419264)
 
-### Usage (install)
+### Install
 
 > Read the setup info below (need twitter credentials) 
 
 ```bash
 # install globally
 npm install twpm -g
-twpm install
 
-# use npx
+# use npx for one-off command
 npx twpm install
 ```
 
-```bash
-# install from url
-twpm install https://twitter.com/rauchg/status/712799807073419264 --save left-pad
+#### Installing "packages"
 
-# search
+```bash
+twpm install https://twitter.com/rauchg/status/712799807073419264 --save left-pad
+```
+
+#### "Search" to find twpm packages
+
+```js
 twpm search left-pad
 ```
 
@@ -40,19 +43,13 @@ leftPad(1, 5) // "00001"
 You need to add a `CONSUMER_KEY` and `CONSUMER_KEY` environment variables
 or you will need a `twitter-config.js` in the root repo you run this in.
 
-> You can create a twitter app at https://apps.twitter.com to get these 2 keys
-> TODO: is support without using a key possible?
+> You can create a Twitter app to get keys at https://apps.twitter.com.
 
 ```js
-// twitter-config.js
 module.exports = {
   "consumer_key": "",
   "consumer_secret": "",
-  "app_only_auth": true
-
-  // not necessary unless we plan to post tweets as well
-  // "access_token": "",
-  // "access_token_secret": ""
+  "app_only_auth": true,
 };
 ```
 
@@ -81,8 +78,6 @@ twpm i
 
 Since twpm will be transpiling the code, twpm will strip out the first line if the tweet is multiline and contains the hashtag `#twpm`.
 
-> TODO: support any binding
-
 #### Tweet
 
 ```js
@@ -103,8 +98,6 @@ Currently you will need to use a `export default function() {}` or `export defau
 
 You can search through tweets that are hashtagged with `#twpm` and install them
 
-> TODO: prompt to install afterwards
-
 ```js
 # get some random ones
 twpm search
@@ -112,7 +105,7 @@ twpm search
 twpm search left-pad
 ```
 
-### Repo `package.json`
+### Config: `twpm` key in `package.json`
 
 ```js
 {
@@ -165,11 +158,7 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 
 ## Test
 
-> You will need `twitter-config.js` setup or environment variables
-
 ```bash
-npm i
-# same as twpm install
-node ./bin/twpm.js i
-npm t
+npm install
+npm test
 ```
