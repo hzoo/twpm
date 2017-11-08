@@ -2,7 +2,7 @@
   "name": "twpm",
   "version": "0.0.6",
   "description": "twitter package manager",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "node test/test.js",
     "pretest": "node ./bin/twpm.js install"

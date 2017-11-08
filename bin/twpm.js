@@ -15,7 +15,7 @@ if (arg === "-v" || arg === "-V" || arg === "--version" || arg === "-version") {
 }
 
 if (arg === "install" || arg === "i") {
-  const twpm = require("../index");
+  const twpm = require("../src/index");
 
   const url = args[1];
   twpm.install(url, args[3]);

@@ -6,8 +6,8 @@ const fs = require("fs");
 const Babel = require("@babel/standalone");
 
 const utils = require("./utils");
-const getTweet = require("./sources/twitter").getTweet;
-const searchTweets = require("./sources/twitter").searchTweets;
+const getTweet = require("./twitter").getTweet;
+const searchTweets = require("./twitter").searchTweets;
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");

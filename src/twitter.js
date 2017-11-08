@@ -3,7 +3,8 @@
 const path = require("path");
 const Twit = require("twit");
 const decode = require("entities").decodeHTML;
-const utils = require("../utils");
+
+const utils = require("./utils");
 const rootPath = utils.getTopLevelDirectory();
 const configLoc = path.join(rootPath, "twitter-config");
 
