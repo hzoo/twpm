@@ -4,7 +4,6 @@ const mkdirp = require("mkdirp");
 const path = require("path");
 const fs = require("fs");
 const Babel = require("babel-standalone");
-const babelrc = require("./package").babel;
 
 const utils = require("./utils");
 const getTweet = require("./sources/twitter").getTweet;
@@ -12,6 +11,14 @@ const searchTweets = require("./sources/twitter").searchTweets;
 
 const rootPath = utils.getTopLevelDirectory();
 const packageLoc = path.join(rootPath, "package.json");
+
+const babelrc = {
+  "presets": [
+    "@babel/env",
+    "@babel/react",
+    "@babel/stage-0"
+  ]
+};
 
 let pkg;
 let twpmModulesName = "node_modules";
