@@ -4,26 +4,35 @@
 
 [![](twpm.gif)](https://twitter.com/rauchg/status/712799807073419264)
 
-### Simple Usage
+### Usage (install)
+
+> Read the setup info below (need twitter credentials) 
 
 ```bash
 # install globally
 npm install twpm -g
+twpm install
 
-# read the setup info below (need twitter credentials)
-twpm install 712799807073419264 --save left-pad
+# use npx
+npx twpm install
+```
 
-## usage in code
-const leftPad = require("@twpm/left-pad");
-
-# or use npx
-npx twpm install 712799807073419264 --save left-pad
+```bash
+# install from url
+twpm install https://twitter.com/rauchg/status/712799807073419264 --save left-pad
 
 # search
 twpm search left-pad
+```
 
-# use the id you get to install it
-twpm install 715856513777147900 --save left-pad
+### Usage (in code)
+
+> The default package folder/require prefix is `@twpm/`
+
+```js
+// usage for `twpm install 712799807073419264 --save left-pad`
+const leftPad = require("@twpm/left-pad");
+leftPad(1, 5) // "00001"
 ```
 
 ### Setup
@@ -68,31 +77,27 @@ twpm install
 twpm i
 ```
 
-### Require
-
-> The default package folder/require prefix is `@twpm/`
-
-```js
-// usage for `twpm install 712799807073419264 --save left-pad`
-const leftPad = require("@twpm/left-pad");
-leftPad(1, 5) // "00001"
-```
-
 ### The tweets
 
 Since twpm will be transpiling the code, twpm will strip out the first line if the tweet is multiline and contains the hashtag `#twpm`.
 
+> TODO: support any binding
+
+#### Tweet
+
 ```js
-// Input
 @_henryzhu //#twpm:left-pad
 export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).repeat(n) + v).slice(-n);
+```
+
+#### Extracted Code
+
+```js
 // Input to be transpiled (just the function. otherwise an error will occur with decorators)
 export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).repeat(n) + v).slice(-n);
 ```
 
 Currently you will need to use a `export default function() {}` or `export default () => {}` in your tweet.
-
-> TODO: support any binding.
 
 ### Search
 
@@ -106,7 +111,6 @@ twpm search
 # specific keyword search
 twpm search left-pad
 ```
-
 
 ### Repo `package.json`
 
