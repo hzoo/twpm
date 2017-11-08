@@ -13,7 +13,7 @@ twitter package manager
 // after adding `./twitter-config.js` ^
 twpm install 712799807073419264 --save left-pad
 // in a file, require it with the prefix
-const leftPad = require("twpm-left-pad");
+const leftPad = require("@twpm/left-pad");
 
 // search
 twpm search left-pad
@@ -23,9 +23,11 @@ twpm install 715856513777147900 --save left-pad
 
 ### Setup
 
-At the moment, you will need a `twitter-config.js` in the root repo you run this in.
 
-> You can create a twitter app at https://apps.twitter.com/
+You need to add a CONSUMER_KEY and CONSUMER_KEY environment variables
+or you will need a `twitter-config.js` in the root repo you run this in.
+
+> You can create a twitter app at https://apps.twitter.com to get these 2 keys
 
 ```js
 // twitter-config.js
@@ -40,7 +42,7 @@ module.exports = {
 };
 ```
 
-> TODO: support without using a key?
+> TODO: is support without using a key possible?
 
 ### Commands
 
@@ -48,14 +50,14 @@ module.exports = {
 # install specific tweet/id
 twpm install 712799807073419264 # tweet id
 twpm install https://twitter.com/rauchg/status/712799807073419264 # full url
-# Will install to node_modules/twpm-712799807073419264
+# Will install to node_modules/@twpm/712799807073419264
 
 `install` creates a `index.js` with transpiled source and a `package.json` with metadata (including the original source).
 
 # save to package.json
 # under the twpm key
 twpm install 712799807073419264 --save left-pad
-# Will install to node_modules/twpm-left-pad
+# Will install to node_modules/@twpm/left-pad
 
 # install everything under the `twpm.dependencies`
 twpm install
@@ -65,11 +67,11 @@ twpm i
 
 ### Require
 
-> The default package folder/require prefix is `twpm-`
+> The default package folder/require prefix is `@twpm/`
 
 ```js
 // usage for `twpm install 712799807073419264 --save left-pad`
-const leftPad = require("twpm-left-pad");
+const leftPad = require("@twpm/left-pad");
 leftPad(1, 5) // "00001"
 ```
 
@@ -110,7 +112,7 @@ twpm search left-pad
   "name": "pad",
   "twpm": {
     "modulesLocation": "node_modules", // default folder
-    "folderPrefix": "twpm-", // default prefix
+    "folderPrefix": "@twpm/", // default prefix
     "packageMetadata": [
       "name",
       "text",
@@ -122,8 +124,8 @@ twpm search left-pad
       "user"
     ] // default fields to take from twitter status
     "dependencies": {
-      "twpm-left-pad": "712799807073419264"
-      "twpm-sort": "713782217646931968"
+      "@twpm/left-pad": "712799807073419264"
+      "@twpm/sort": "713782217646931968"
     }
   }
 }
@@ -148,15 +150,19 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 ```
 - twpm-test
   - node_modules
-    - twpm-asdf
-      - index.js # transpiled index.js
-      - package.json # reformatted twitter data + name field
+    - @twpm
+      - asdf
+        - index.js # transpiled index.js
+        - package.json # reformatted twitter data + name field
 ```
 
 ## Test
-// Will need `twitter-config.js` setup
+
+> You will need `twitter-config.js` setup or environment variables
+
 ```bash
 npm i
-twpm i
+# same as twpm install
+node ./bin/twpm.js i
 npm t
 ```

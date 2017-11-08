@@ -8,10 +8,27 @@ const rootPath = utils.getTopLevelDirectory();
 const configLoc = path.join(rootPath, "twitter-config");
 
 let twit;
-try {
- twit = new Twit(require(configLoc));
-} catch(e) {
-  throw new Error(`${e.message}\nProbably a missing ./twitter-config.js file. Check the twpm readme`);
+if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
+  twit = new Twit({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    app_only_auth: true,
+  })
+} else {
+  try {
+   twit = new Twit(require(configLoc));
+  } catch(e) {
+    throw new Error(`
+      You probably need to create a './twitter-config.js' file. Check the twpm readme!
+
+      // twitter-config.js
+      module.exports = {
+        "consumer_key": "",
+        "consumer_secret": "",
+        "app_only_auth": true
+      };
+    `);
+  }
 }
 
 const packageLoc = path.join(rootPath, "package.json");
@@ -22,18 +39,19 @@ try {
 } catch(e) {}
 
 function getTweet(id, name) {
-  return twit.get(`/statuses/show/:id`, { id })
+  return twit.get(`/statuses/show/:id`, { id, "tweet_mode": "extended" })
   .then((tweet) => {
     let data = tweet.data;
     if (data.errors) {
       throw new Error(`${data.errors[0].code}: ${data.errors[0].message}`);
     }
-    data.text = decode(data.text);
+
+    data.text = decode(data.full_text);
 
     var filteredData = {};
-    let prefix = "twpm-";
+    let prefix = "@twpm/";
     if (name) {
-      prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
+      prefix = pkg.twpm && pkg.twpm.folderPrefix || "@twpm/";
 
       filteredData.name = name;
       if (!name.startsWith(prefix)) {
@@ -101,7 +119,7 @@ function searchTweets(query) {
     for (let i = 0; i < tweets.length; i++) {
       let data = tweets[i];
 
-      data.text = decode(data.text);
+      data.text = decode(data.full_text);
 
       console.log(`Tweet ${data.id_str}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
       console.log(`@${data.user.screen_name} at ${data.created_at}`);
