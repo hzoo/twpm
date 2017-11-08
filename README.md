@@ -35,7 +35,7 @@ leftPad(1, 5) // "00001"
 
 ### Environment Variables
 
-You need to add `CONSUMER_KEY` and `CONSUMER_KEY` environment variables when running twpm
+You need to add `TWITTER_CONSUMER_KEY` and `TWITTER_CONSUMER_SECRET` environment variables when running twpm
 
 ### Config file (`./twitter-config.js`)
 
