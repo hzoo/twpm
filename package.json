@@ -4,7 +4,8 @@
   "description": "twitter package manager",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "postinstall": "node ./bin/twpm.js install"
   },
   "bin": {
     "twpm": "./bin/twpm.js"
@@ -20,7 +21,8 @@
   },
   "twpm": {
     "dependencies": {
-      "@twpm/left-pad": "715856513777147904"
+      "@twpm/left-pad": "715856513777147904",
+      "@twpm/mitt": "928128708862464001"
     }
   },
   "author": "Henry Zhu <hi@henryzoo.com>",

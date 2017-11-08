@@ -39,13 +39,14 @@ try {
 } catch(e) {}
 
 function getTweet(id, name) {
-  return twit.get(`/statuses/show/:id`, { id })
+  return twit.get(`/statuses/show/:id`, { id, "tweet_mode": "extended" })
   .then((tweet) => {
     let data = tweet.data;
     if (data.errors) {
       throw new Error(`${data.errors[0].code}: ${data.errors[0].message}`);
     }
-    data.text = decode(data.text);
+
+    data.text = decode(data.full_text);
 
     var filteredData = {};
     let prefix = "@twpm/";
@@ -118,7 +119,7 @@ function searchTweets(query) {
     for (let i = 0; i < tweets.length; i++) {
       let data = tweets[i];
 
-      data.text = decode(data.text);
+      data.text = decode(data.full_text);
 
       console.log(`Tweet ${data.id_str}: ${data.retweet_count} 🔄, ${data.favorite_count} 💟`);
       console.log(`@${data.user.screen_name} at ${data.created_at}`);

@@ -11,4 +11,12 @@ assert(res2 === "01234");
 const res3 = leftPad(12345, 5);
 assert(res3 === "12345");
 
+const mitt = require("@twpm/mitt");
+
+const events = Object.create(null);
+const inst = mitt(events);
+let foo = () => {};
+inst.on('foo', foo);
+assert(events.foo[0] === foo);
+
 console.log("All passed! 🎉");
