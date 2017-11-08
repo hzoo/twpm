@@ -21,12 +21,6 @@ npx twpm install
 twpm install https://twitter.com/rauchg/status/712799807073419264 --save left-pad
 ```
 
-#### "Search" to find twpm packages
-
-```js
-twpm search left-pad
-```
-
 ### Usage (in code)
 
 > The default package folder/require prefix is `@twpm/`
@@ -54,6 +48,8 @@ module.exports = {
 
 ### Commands
 
+#### Install
+
 ```bash
 # will install to node_modules/@twpm/712799807073419264
 twpm install 712799807073419264
@@ -73,7 +69,18 @@ twpm install
 twpm i
 ```
 
-### The tweets
+#### Search
+
+You can search through tweets that are hashtagged with `#twpm` and install them
+
+```js
+# get some random ones
+twpm search
+# specific keyword search
+twpm search left-pad
+```
+
+### Tweets
 
 Since twpm will be transpiling the code, twpm will strip out the first line if the tweet is multiline and contains the hashtag `#twpm`.
 
@@ -92,17 +99,6 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
 ```
 
 Currently you will need to use a `export default function() {}` or `export default () => {}` in your tweet.
-
-### Search
-
-You can search through tweets that are hashtagged with `#twpm` and install them
-
-```js
-# get some random ones
-twpm search
-# specific keyword search
-twpm search left-pad
-```
 
 ### Config: `twpm` key in `package.json`
 
@@ -153,11 +149,4 @@ export default (v, n, c = '0') => String(v).length >= n ? '' + v : (String(c).re
       - asdf
         - index.js # transpiled index.js
         - package.json # reformatted twitter data + name field
-```
-
-## Test
-
-```bash
-npm install
-npm test
 ```
