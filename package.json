@@ -20,9 +20,8 @@
   },
   "twpm": {
     "dependencies": {
-      "twpm-left-pad": "715856513777147904"
-    },
-    "folderPrefix": "twpm-"
+      "@twpm/left-pad": "715856513777147904"
+    }
   },
   "author": "Henry Zhu <hi@henryzoo.com>",
   "license": "MIT",

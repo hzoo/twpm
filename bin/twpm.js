@@ -31,7 +31,7 @@ if (arg === "install" || arg === "i") {
     const packageLoc = path.join(rootPath, "package.json");
     const pkg = require(packageLoc);
 
-    const prefix = pkg.twpm && pkg.twpm.folderPrefix || "twpm-";
+    const prefix = pkg.twpm && pkg.twpm.folderPrefix || "@twpm/";
 
     if (!pkg.twpm) {
       pkg.twpm = {};

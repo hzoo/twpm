@@ -14,7 +14,7 @@ const packageLoc = path.join(rootPath, "package.json");
 
 let pkg;
 let twpmModulesName = "node_modules";
-let twpmFolderPrefix = "twpm-";
+let twpmFolderPrefix = "@twpm/";
 try {
   pkg = require(packageLoc);
   twpmModulesName = pkg && pkg.twpm && pkg.twpm.modulesLocation || twpmModulesName;
