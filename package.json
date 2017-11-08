@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js",
-    "postinstall": "node ./bin/twpm.js install"
+    "pretest": "node ./bin/twpm.js install"
   },
   "bin": {
     "twpm": "./bin/twpm.js"
