@@ -6,11 +6,10 @@
 
 ### Install
 
-> Read the setup info below (need twitter credentials) 
+> Read the [setup](#setup) info below (will need some twitter credentials) 
 
 ```bash
-# install globally
-npm install twpm -g
+npm i twpm -g
 
 # use npx for one-off command
 npx twpm install
